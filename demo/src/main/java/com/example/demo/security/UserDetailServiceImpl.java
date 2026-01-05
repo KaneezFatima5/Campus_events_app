@@ -1,6 +1,6 @@
 package com.example.demo.security;
 
-import com.example.demo.repository.user_repository;
+import com.example.demo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class user_detail_service_impl implements UserDetailsService {
-    private final user_repository userRepository;
+public class UserDetailServiceImpl implements UserDetailsService {
+    private final UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {

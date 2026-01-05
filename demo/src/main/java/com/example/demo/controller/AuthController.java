@@ -1,9 +1,9 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.auth_response;
-import com.example.demo.dto.login_request;
-import com.example.demo.dto.register_request;
-import com.example.demo.service.auth_service;
+import com.example.demo.dto.AuthRequest;
+import com.example.demo.dto.LoginRequest;
+import com.example.demo.dto.RegisterRequest;
+import com.example.demo.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,22 +15,22 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
-public class auth_controller {
+public class AuthController {
 
-    private final auth_service authService;
+    private final AuthService authService;
 
     @PostMapping("/register/attendee")
-    public ResponseEntity<auth_response> registerAttendee(@Valid @RequestBody register_request request) {
+    public ResponseEntity<AuthRequest> registerAttendee(@Valid @RequestBody RegisterRequest request) {
         return ResponseEntity.ok(authService.register(request));
     }
 
     @PostMapping("/register/organizer")
-    public ResponseEntity<auth_response> registerOrganizer(@Valid @RequestBody register_request request) {
+    public ResponseEntity<AuthRequest> registerOrganizer(@Valid @RequestBody RegisterRequest request) {
         return ResponseEntity.ok(authService.register(request));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<auth_response> login(@Valid @RequestBody login_request request) {
+    public ResponseEntity<AuthRequest> login(@Valid @RequestBody LoginRequest request) {
         return ResponseEntity.ok(authService.login(request));
     }
 }

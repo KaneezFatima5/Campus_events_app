@@ -16,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class user implements UserDetails {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -32,7 +32,7 @@ public class user implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private role role; // ATTENDEE, ORGANIZER, ADMIN
+    private Role role; // ATTENDEE, ORGANIZER, ADMIN
 
     private String department;
 

@@ -11,7 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Configuration
-public class cors_config {
+public class CorsConfig {
 
     @Value("${cors.allowed-origins}")
     private String allowedOrigins;

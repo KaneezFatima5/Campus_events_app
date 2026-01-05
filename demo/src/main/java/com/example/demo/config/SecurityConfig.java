@@ -1,7 +1,7 @@
 package com.example.demo.config;
 
 
-import com.example.demo.security.jwt_authentication_filter;
+import com.example.demo.security.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,8 +23,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @EnableMethodSecurity
 @RequiredArgsConstructor
-public class security_config {
-    private final jwt_authentication_filter jwtAuthFilter;
+public class SecurityConfig {
+    private final JwtAuthenticationFilter jwtAuthFilter;
     private final UserDetailsService userDetailsService;
 
     @Bean

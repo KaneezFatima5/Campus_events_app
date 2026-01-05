@@ -1,10 +1,10 @@
 package com.example.demo.service;
 
-import com.example.demo.dto.auth_response;
-import com.example.demo.dto.login_request;
-import com.example.demo.dto.register_request;
-import com.example.demo.model.user;
-import com.example.demo.repository.user_repository;
+import com.example.demo.dto.AuthRequest;
+import com.example.demo.dto.LoginRequest;
+import com.example.demo.dto.RegisterRequest;
+import com.example.demo.model.User;
+import com.example.demo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -13,21 +13,21 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class auth_service {
+public class AuthService {
 
-    private final user_repository userRepository;
+    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final jwt_service jwtService;
+    private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    public auth_response register(register_request request) {
+    public AuthRequest register(RegisterRequest request) {
         // Check if user already exists
         if (userRepository.existsByEmail(request.getEmail())) {
             throw new RuntimeException("Email already registered");
         }
 
         // Create new user
-        var user = com.example.demo.model.user.builder()
+        var user = User.builder()
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .fullName(request.getFullName())
@@ -40,7 +40,7 @@ public class auth_service {
         // Generate JWT token
         var jwtToken = jwtService.generateToken(user);
 
-        return auth_response.builder()
+        return AuthRequest.builder()
                 .token(jwtToken)
                 .email(user.getEmail())
                 .fullName(user.getFullName())
@@ -49,7 +49,7 @@ public class auth_service {
                 .build();
     }
 
-    public auth_response login(login_request request) {
+    public AuthRequest login(LoginRequest request) {
         // Authenticate user
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -65,7 +65,7 @@ public class auth_service {
         // Generate JWT token
         var jwtToken = jwtService.generateToken(user);
 
-        return auth_response.builder()
+        return AuthRequest.builder()
                 .token(jwtToken)
                 .email(user.getEmail())
                 .fullName(user.getFullName())

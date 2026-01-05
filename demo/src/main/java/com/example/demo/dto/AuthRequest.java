@@ -1,6 +1,6 @@
 package com.example.demo.dto;
 
-import com.example.demo.model.role;
+import com.example.demo.model.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -8,10 +8,10 @@ import lombok.Data;
 @Data
 @Builder
 @AllArgsConstructor
-public class auth_response {
+public class AuthRequest {
     private String token;
     private String email;
     private String fullName;
-    private role role;
+    private Role role;
     private String message;
 }

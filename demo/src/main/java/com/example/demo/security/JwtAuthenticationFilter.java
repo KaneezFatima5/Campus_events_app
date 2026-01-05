@@ -1,6 +1,6 @@
 package com.example.demo.security;
 
-import com.example.demo.service.jwt_service;
+import com.example.demo.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,8 +18,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 @Component
 @RequiredArgsConstructor
-public class jwt_authentication_filter extends OncePerRequestFilter {
-    private final jwt_service jwtService;
+public class JwtAuthenticationFilter extends OncePerRequestFilter {
+    private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
 
     @Override
