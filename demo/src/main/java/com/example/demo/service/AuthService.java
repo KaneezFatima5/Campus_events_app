@@ -1,15 +1,17 @@
 package com.example.demo.service;
 
-import com.example.demo.dto.AuthRequest;
-import com.example.demo.dto.LoginRequest;
-import com.example.demo.dto.RegisterRequest;
+import com.example.demo.dto.*;
 import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.aspectj.bridge.Message;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -73,4 +75,32 @@ public class AuthService {
                 .message("Login successful")
                 .build();
     }
+    public MessageResponse forgotPassword(ForgotPasswordRequest request){
+        var user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new RuntimeException("User not found with this email"));
+        //generate token
+        String resetToken = UUID.randomUUID().toString();
+        user.setResetToken(resetToken);
+        user.setResetTokenExpiry(LocalDateTime.now().plusMinutes(15));
+        userRepository.save(user);
+
+        //TODO: implement email/text service for reset token
+        return MessageResponse.builder()
+                .message("Password reset token generated. Check your email. (Token: " + resetToken + ")").build();
+
+    }
+    //Update password
+    public MessageResponse resetPassword(ResetPasswordRequest request){
+        var user = userRepository.findByResetToken(request.getToken()).orElseThrow(() -> new RuntimeException("Invalid Reset Token"));
+        //check reset password expiry
+        if(user.getResetTokenExpiry().isBefore(LocalDateTime.now())){
+            throw new RuntimeException("Reset token is expired");
+        }
+        user.setPassword(request.getPassword());
+        user.setResetToken(null);
+        user.setResetTokenExpiry(null);
+
+        userRepository.save(user);
+        return MessageResponse.builder().message("Password reset successful").build();
+    }
+
 }

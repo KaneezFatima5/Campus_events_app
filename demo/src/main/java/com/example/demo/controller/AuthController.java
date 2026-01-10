@@ -1,8 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.AuthRequest;
-import com.example.demo.dto.LoginRequest;
-import com.example.demo.dto.RegisterRequest;
+import com.example.demo.dto.*;
 import com.example.demo.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -32,5 +30,13 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<AuthRequest> login(@Valid @RequestBody LoginRequest request) {
         return ResponseEntity.ok(authService.login(request));
+    }
+    @PostMapping("/forgot-password")
+    public ResponseEntity<MessageResponse> resetPassword(@Valid @RequestBody ForgotPasswordRequest request){
+        return ResponseEntity.ok(authService.forgotPassword(request));
+    }
+    @PostMapping("/reset-password")
+    public ResponseEntity<MessageResponse> resetPassword(@Valid @RequestBody ResetPasswordRequest request){
+        return ResponseEntity.ok(authService.resetPassword(request));
     }
 }

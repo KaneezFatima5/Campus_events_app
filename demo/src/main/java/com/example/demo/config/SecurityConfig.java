@@ -33,7 +33,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> {})
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/v1/auth/**", "/api/v1/test", "api/v1/events", "/api/v1/files/event-images/**").permitAll()
+                        .requestMatchers("/api/v1/auth/**", "/api/v1/test", "/api/v1/events", "/api/v1/events/{id}", "/api/v1/files/event-images/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
