@@ -24,6 +24,7 @@ public class EventService {
 
     private final EventRepository eventRepository;
     private final UserRepository userRepository;
+    private final FileStorageService fileStorageService;
 
     public EventResponse createEvent(EventRequest request){
         User organizer = getCurrentUser();
@@ -80,6 +81,14 @@ public class EventService {
         if(request.getEndDate().isBefore(request.getStartDate())){
             throw new RuntimeException("End date must be after start date");
         }
+        //delete old image if new is uploaded
+        if(request.getImageUrl()!=null && !request.getImageUrl().equals(event.getImageUrl()) && event.getImageUrl()!=null){
+            try{
+                fileStorageService.deleteFile(event.getImageUrl());
+            }catch (Exception ex){
+                System.err.println("Failed to delete old image "+ ex.getMessage());
+            }
+        }
         // Update fields
         event.setTitle(request.getTitle());
         event.setDescription(request.getDescription());
@@ -101,6 +110,14 @@ public class EventService {
 
         if(!event.getOrganizer().getId().equals(currentUser.getId()) && !currentUser.getRole().equals(Role.ADMIN)){
             throw new RuntimeException("You don't have permission to delete this event");
+        }
+        //Delete associated image
+        if(event.getImageUrl()!=null){
+            try{
+                fileStorageService.deleteFile(event.getImageUrl());
+            }catch (Exception e){
+                System.err.println("Failed to delete image: "+e.getMessage());
+            }
         }
         eventRepository.delete(event);
     }
@@ -145,4 +162,5 @@ public class EventService {
                 .updatedAt(event.getUpdatedAt())
                 .build();
     }
+
 }
