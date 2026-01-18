@@ -26,6 +26,8 @@ public class EventResponse {
     private OrganizerInfo organizer;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private Long attendeeCount; // Add this field
+
 
     @Data
     @Builder

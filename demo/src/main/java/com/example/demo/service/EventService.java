@@ -6,6 +6,7 @@ import com.example.demo.dto.EventResponse;
 import com.example.demo.model.Event;
 import com.example.demo.model.Role;
 import com.example.demo.model.User;
+import com.example.demo.repository.EventAttendeeRepository;
 import com.example.demo.repository.EventRepository;
 import com.example.demo.repository.UserRepository;
 import jakarta.transaction.Transactional;
@@ -25,6 +26,7 @@ public class EventService {
     private final EventRepository eventRepository;
     private final UserRepository userRepository;
     private final FileStorageService fileStorageService;
+    private final EventAttendeeRepository attendeeRepository; // Add this
 
     public EventResponse createEvent(EventRequest request){
         User organizer = getCurrentUser();
@@ -142,6 +144,7 @@ public class EventService {
         return userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User Not Found"));
     }
     private EventResponse mapToEventResponse(Event event){
+        long attendeeCount=attendeeRepository.countByEventId(event.getId());
         return EventResponse.builder().id(event.getId())
                 .title(event.getTitle())
                 .description(event.getDescription())
@@ -160,6 +163,7 @@ public class EventService {
                         .build())
                 .createdAt(event.getCreatedAt())
                 .updatedAt(event.getUpdatedAt())
+                .attendeeCount(attendeeCount) // Add this
                 .build();
     }
 
