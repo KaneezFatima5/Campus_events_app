@@ -30,7 +30,7 @@ public class EventService {
 
     public EventResponse createEvent(EventRequest request){
         User organizer = getCurrentUser();
-        if(!organizer.getRole().equals(Role.ORGNIZER) && !organizer.getRole().equals(Role.ADMIN)){
+        if(!organizer.getRole().equals(Role.ORGANIZER) && !organizer.getRole().equals(Role.ADMIN)){
             throw new RuntimeException("Only organizers can create events");
         }
 
