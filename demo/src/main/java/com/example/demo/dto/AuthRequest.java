@@ -9,6 +9,7 @@ import lombok.Data;
 @Builder
 @AllArgsConstructor
 public class AuthRequest {
+    private Long id;
     private String token;
     private String email;
     private String fullName;
