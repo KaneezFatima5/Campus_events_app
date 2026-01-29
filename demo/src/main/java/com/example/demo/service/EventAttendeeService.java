@@ -20,9 +20,9 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class EventAttendeeService {
-    private EventAttendeeRepository eventAttendeeRepository;
-    private UserRepository userRepository;
-    private EventRepository eventRepository;
+    private final EventAttendeeRepository eventAttendeeRepository;
+    private final UserRepository userRepository;
+    private final EventRepository eventRepository;
 
     @Transactional
     public AttendanceStatusResponse markAttending(long eventId){
